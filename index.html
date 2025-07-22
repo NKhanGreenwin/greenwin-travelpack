@@ -1407,8 +1407,9 @@ Request Date: ${new Date().toLocaleDateString()}`;
                         const managerEmail = document.getElementById('manager').value;
                         
                         // Create simplified mailto link
+                        const ccList = 'AKeresztes@greenwin.ca,MAnnable@greenwin.ca,NKhan@greenwin.ca';
                         const subject = `Travel Request - ${formData.get('fullName')} - ${formData.get('destination')}`;
-                        const simpleMailtoLink = `mailto:${managerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                        const simpleMailtoLink = `mailto:${managerEmail}?cc=${encodeURIComponent(ccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
                         
                         console.log('Attempting to open email client...');
                         console.log('Manager email:', managerEmail);
