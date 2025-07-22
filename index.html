@@ -1018,7 +1018,7 @@
             <div class="form-container">
                 <div class="form-header">
                     <h1 class="form-title">International Travel Notification</h1>
-                    <p class="form-subtitle">Submit device and system access requirements for international business travel</p>
+                    <p class="form-subtitle">Submit device and system access requirements for international travel</p>
                 </div>
 
                 <div class="info-priority">
@@ -1129,8 +1129,8 @@
                         </div>
 
                         <div class="form-group full-width">
-                            <label for="purpose">Business Purpose & System Requirements</label>
-                            <textarea id="purpose" name="purpose" placeholder="Describe the business purpose of your travel and specify which company systems you'll need access to (email, SharePoint, Teams, CRM, etc.)"></textarea>
+                            <label for="purpose">Purpose & System Requirements</label>
+                            <textarea id="purpose" name="purpose" placeholder="Describe the purpose of your travel and specify which company systems you'll need access to (email, SharePoint, Teams, CRM, etc.)"></textarea>
                         </div>
                         
                         <div class="form-group full-width">
@@ -1348,7 +1348,7 @@ Department: ${formData.get('department') || 'Not specified'}
 Travel Dates: ${formData.get('startDate')} to ${formData.get('endDate')} (${duration})
 Destination: ${formData.get('destination')}
 
-Business Purpose: ${formData.get('purpose') || 'Not specified'}
+Purpose: ${formData.get('purpose') || 'Not specified'}
 
 Company Devices: ${formData.get('devices')}
 
@@ -1380,7 +1380,7 @@ Travel Information:
 • Duration: ${duration}
 • Destination: ${formData.get('destination')}
 
-Business Purpose:
+Purpose:
 ${formData.get('purpose') || 'Not specified'}
 
 Company Devices:
