@@ -53,43 +53,43 @@
             </div>
         </section>
 
-        <section class="rounded-2xl shadow-2xl border border-greenwin-light bg-gradient-to-br from-greenwin-light/60 via-white/80 to-greenwin-accent/30 backdrop-blur-md p-8 md:p-12 mb-8 flex flex-col items-center">
-            <div class="flex flex-col items-center mb-6">
-                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-greenwin-accent/20 mb-3">
-                    <i class="fas fa-check-circle text-greenwin-accent text-4xl"></i>
-                </div>
-                <span class="font-extrabold text-2xl md:text-3xl text-greenwin-primary mb-2">Acknowledgments & Compliance</span>
-            </div>
-            <div class="flex flex-col w-full max-w-2xl gap-0 divide-y divide-greenwin-light/60">
-                <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
-                    <input type="checkbox" id="systemAccess" name="systemAccess" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
-                    <span class="flex-1">I understand that IT Support will configure Microsoft Exchange conditional access policies for my travel destination to maintain access to company systems. <span class="text-greenwin-accent font-bold">*</span></span>
-                </label>
-                <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
-                    <input type="checkbox" id="deviceCompliance" name="deviceCompliance" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
-                    <span class="flex-1">I confirm all company devices are up-to-date with security patches and will comply with any additional security policies applied during travel. <span class="text-greenwin-accent font-bold">*</span></span>
-                </label>
-                <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
-                    <input type="checkbox" id="authRequirement" name="authRequirement" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
-                    <span class="flex-1">I understand that secure authentication protocols and MFA are required for all company system access while traveling abroad. <span class="text-greenwin-accent font-bold">*</span></span>
-                </label>
-                <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
-                    <input type="checkbox" id="itSupport" name="itSupport" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
-                    <span class="flex-1">I will contact ITSupport@greenwin.ca for any technical issues and understand that system access may be temporarily restricted for security purposes. <span class="text-greenwin-accent font-bold">*</span></span>
-                </label>
-                <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
-                    <input type="checkbox" id="dataCompliance" name="dataCompliance" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
-                    <span class="flex-1">I agree that this information will be used by IT Support to configure secure access policies and understand all system activity will be monitored during travel. <span class="text-greenwin-accent font-bold">*</span></span>
-                </label>
-            </div>
-        </section>
-
-        <section class="rounded-2xl shadow-xl border border-greenwin-light bg-white/70 backdrop-blur-md p-6 md:p-10">
+        <section class="rounded-2xl shadow-xl border border-greenwin-light bg-white/80 backdrop-blur-md p-6 md:p-10 mb-8">
             <form id="travelForm" action="mailto:ITSupport@greenwin.ca" method="POST" enctype="text/plain" class="flex flex-col gap-10">
+                <!-- Employee Information -->
                 <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <i class="fas fa-globe text-greenwin-accent text-xl"></i>
-                        <span class="font-semibold text-lg text-greenwin-primary">Travel Details</span>
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fas fa-user text-greenwin-primary text-2xl"></i>
+                        <span class="font-bold text-2xl text-greenwin-primary">Employee Information</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label for="fullName" class="block text-base font-semibold text-greenwin-primary mb-2">Full Name <span class="text-greenwin-accent font-bold">*</span></label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-base font-semibold text-greenwin-primary mb-2">Email Address <span class="text-greenwin-accent font-bold">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@greenwin.ca" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-base font-semibold text-greenwin-primary mb-2">Phone Number <span class="text-greenwin-accent font-bold">*</span></label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition">
+                        </div>
+                        <div>
+                            <label for="manager" class="block text-base font-semibold text-greenwin-primary mb-2">Manager/Supervisor Email <span class="text-greenwin-accent font-bold">*</span></label>
+                            <input type="email" id="manager" name="manager" required placeholder="manager.name@greenwin.ca" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition">
+                            <div class="text-sm text-gray-400 mt-2">Enter the full email address of your manager/supervisor</div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="department" class="block text-base font-semibold text-greenwin-primary mb-2">Department</label>
+                            <input type="text" id="department" name="department" placeholder="Your department" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition">
+                        </div>
+                    </div>
+                </div>
+                <!-- Travel Details -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fas fa-globe text-greenwin-primary text-2xl"></i>
+                        <span class="font-bold text-2xl text-greenwin-primary">Travel Details</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
                         <div>
@@ -153,33 +153,38 @@
                         <textarea id="devices" name="devices" required placeholder="List all company devices you'll be traveling with (laptop model, phone model, tablet, etc.)" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition min-h-[80px]"></textarea>
                     </div>
                 </div>
-
-                <div class="bg-gray-50 rounded-xl p-4 md:p-6 mb-4">
-                    <div class="font-semibold text-greenwin-primary mb-2 flex items-center gap-2"><i class="fas fa-clipboard-check text-greenwin-accent"></i> Acknowledgments & Compliance</div>
-                    <div class="flex flex-col gap-6">
-                        <label class="flex items-start gap-4 cursor-pointer text-lg text-greenwin-dark">
-                            <input type="checkbox" id="systemAccess" name="systemAccess" required class="mt-1 accent-greenwin-accent w-6 h-6 rounded-lg border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition">
-                            <span>I understand that IT Support will configure Microsoft Exchange conditional access policies for my travel destination to maintain access to company systems. <span class="text-greenwin-accent font-bold">*</span></span>
+                <!-- Acknowledgments & Compliance -->
+                <div class="rounded-2xl shadow-2xl border border-greenwin-light bg-gradient-to-br from-greenwin-light/60 via-white/80 to-greenwin-accent/30 backdrop-blur-md p-8 md:p-12 flex flex-col items-center">
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-greenwin-accent/20 mb-3">
+                            <i class="fas fa-check-circle text-greenwin-accent text-4xl"></i>
+                        </div>
+                        <span class="font-extrabold text-2xl md:text-3xl text-greenwin-primary mb-2">Acknowledgments & Compliance</span>
+                    </div>
+                    <div class="flex flex-col w-full max-w-2xl gap-0 divide-y divide-greenwin-light/60">
+                        <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
+                            <input type="checkbox" id="systemAccess" name="systemAccess" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
+                            <span class="flex-1">I understand that IT Support will configure Microsoft Exchange conditional access policies for my travel destination to maintain access to company systems. <span class="text-greenwin-accent font-bold">*</span></span>
                         </label>
-                        <label class="flex items-start gap-4 cursor-pointer text-lg text-greenwin-dark">
-                            <input type="checkbox" id="deviceCompliance" name="deviceCompliance" required class="mt-1 accent-greenwin-accent w-6 h-6 rounded-lg border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition">
-                            <span>I confirm all company devices are up-to-date with security patches and will comply with any additional security policies applied during travel. <span class="text-greenwin-accent font-bold">*</span></span>
+                        <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
+                            <input type="checkbox" id="deviceCompliance" name="deviceCompliance" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
+                            <span class="flex-1">I confirm all company devices are up-to-date with security patches and will comply with any additional security policies applied during travel. <span class="text-greenwin-accent font-bold">*</span></span>
                         </label>
-                        <label class="flex items-start gap-4 cursor-pointer text-lg text-greenwin-dark">
-                            <input type="checkbox" id="authRequirement" name="authRequirement" required class="mt-1 accent-greenwin-accent w-6 h-6 rounded-lg border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition">
-                            <span>I understand that secure authentication protocols and MFA are required for all company system access while traveling abroad. <span class="text-greenwin-accent font-bold">*</span></span>
+                        <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
+                            <input type="checkbox" id="authRequirement" name="authRequirement" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
+                            <span class="flex-1">I understand that secure authentication protocols and MFA are required for all company system access while traveling abroad. <span class="text-greenwin-accent font-bold">*</span></span>
                         </label>
-                        <label class="flex items-start gap-4 cursor-pointer text-lg text-greenwin-dark">
-                            <input type="checkbox" id="itSupport" name="itSupport" required class="mt-1 accent-greenwin-accent w-6 h-6 rounded-lg border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition">
-                            <span>I will contact ITSupport@greenwin.ca for any technical issues and understand that system access may be temporarily restricted for security purposes. <span class="text-greenwin-accent font-bold">*</span></span>
+                        <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
+                            <input type="checkbox" id="itSupport" name="itSupport" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
+                            <span class="flex-1">I will contact ITSupport@greenwin.ca for any technical issues and understand that system access may be temporarily restricted for security purposes. <span class="text-greenwin-accent font-bold">*</span></span>
                         </label>
-                        <label class="flex items-start gap-4 cursor-pointer text-lg text-greenwin-dark">
-                            <input type="checkbox" id="dataCompliance" name="dataCompliance" required class="mt-1 accent-greenwin-accent w-6 h-6 rounded-lg border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition">
-                            <span>I agree that this information will be used by IT Support to configure secure access policies and understand all system activity will be monitored during travel. <span class="text-greenwin-accent font-bold">*</span></span>
+                        <label class="flex items-start gap-4 py-5 cursor-pointer text-lg text-greenwin-dark">
+                            <input type="checkbox" id="dataCompliance" name="dataCompliance" required class="mt-1 accent-greenwin-accent w-7 h-7 rounded-xl border-2 border-greenwin-light focus:ring-2 focus:ring-greenwin-accent transition-all duration-200">
+                            <span class="flex-1">I agree that this information will be used by IT Support to configure secure access policies and understand all system activity will be monitored during travel. <span class="text-greenwin-accent font-bold">*</span></span>
                         </label>
                     </div>
                 </div>
-
+                <!-- Submit Button -->
                 <div class="flex flex-col gap-2 mt-4">
                     <button type="submit" class="submit-btn bg-greenwin-primary hover:bg-greenwin-accent text-white font-bold py-4 rounded-full flex items-center justify-center gap-3 text-lg transition-all duration-200 shadow-lg border-0 focus:ring-4 focus:ring-greenwin-accent/30">
                         <span class="loading hidden"></span>
