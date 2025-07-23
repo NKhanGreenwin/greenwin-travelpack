@@ -287,10 +287,7 @@
                         <i class="fas fa-paper-plane"></i>
                         <span>Submit for Approval</span>
                     </button>
-                    <!-- Debug: Test Email Button -->
-                    <button type="button" onclick="testEmailClient()" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded text-sm">
-                        🧪 Test Email Client (Debug)
-                    </button>
+
                 </div>
             </form>
         </section>
@@ -720,20 +717,7 @@ Request Date: ${new Date().toLocaleDateString()}`;
             });
         });
 
-        // Debug function to test email client
-        function testEmailClient() {
-            const testMailto = 'mailto:test@greenwin.ca?subject=Test%20Email&body=This%20is%20a%20test%20email%20from%20TravelPack%20Portal';
-            console.log('Testing email client with:', testMailto);
-            
-            try {
-                window.location.href = testMailto;
-                console.log('✅ Email client test initiated');
-                alert('Test email should have opened in your email client. Check console for details.');
-            } catch (error) {
-                console.error('❌ Email client test failed:', error);
-                alert('Email client test failed: ' + error.message);
-            }
-        }
+
     </script>
 </body>
 </html> 
