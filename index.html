@@ -878,31 +878,55 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 16px;
+                padding: 8px;
             }
-
             .header-content {
                 flex-direction: column;
                 gap: 16px;
                 text-align: center;
             }
-
             .form-container {
-                padding: 24px;
+                padding: 12px;
             }
-
             .form-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 20px;
             }
-
             .date-grid {
                 grid-template-columns: 1fr;
                 gap: 16px;
             }
-
             .logo-text {
                 align-items: center;
+            }
+            .form-group {
+                margin-bottom: 28px;
+            }
+            input, select, textarea, button, .submit-btn {
+                font-size: 18px;
+                min-height: 48px;
+                padding: 16px 14px;
+            }
+            .submit-btn {
+                min-height: 56px;
+                font-size: 20px;
+            }
+            .alert, .alert-success, .alert-error, .alert-warning {
+                font-size: 16px;
+                padding: 18px 10px;
+                word-break: break-word;
+            }
+            .modal-overlay, .modal {
+                max-width: 98vw !important;
+                width: 98vw !important;
+                left: 1vw !important;
+                right: 1vw !important;
+                box-sizing: border-box;
+            }
+            .modal {
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                padding: 10px !important;
             }
         }
 
