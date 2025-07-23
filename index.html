@@ -378,6 +378,8 @@
             document.getElementById('travelForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                // Capture form reference for use in setTimeout
+                const form = this;
                 const submitBtn = document.querySelector('.submit-btn');
                 const loading = submitBtn.querySelector('.loading');
                 const btnText = submitBtn.querySelector('span:last-child');
@@ -451,7 +453,7 @@
                         
                         if (isValid) {
                         // Create simplified email body for better Windows compatibility
-                        const formData = new FormData(this);
+                        const formData = new FormData(form);
                         const duration = document.getElementById('duration').textContent;
                         
                         // Create a shorter, simpler email body
@@ -721,6 +723,8 @@ Request Date: ${new Date().toLocaleDateString()}`;
                     
                     } catch (error) {
                         console.error('Error during form submission:', error);
+                        console.error('Error details:', error.message);
+                        console.error('Error stack:', error.stack);
                         
                         // Show error message
                         const errorAlert = document.createElement('div');
@@ -728,6 +732,7 @@ Request Date: ${new Date().toLocaleDateString()}`;
                         errorAlert.innerHTML = `
                             <i class="fas fa-exclamation-triangle"></i>
                             <strong>Submission Error</strong> There was an error processing your request. Please try again or contact IT Support.
+                            <div class="text-sm mt-2">Error: ${error.message}</div>
                         `;
                         
                         // Remove existing alerts
