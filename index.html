@@ -150,25 +150,25 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label for="fullName" class="block text-sm font-semibold text-greenwin-primary mb-2">Full Name <span class="text-greenwin-accent font-bold">*</span></label>
-                            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
+                            <input type="text" id="fullName" name="fullName" autocomplete="name" required placeholder="Enter your full name" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
                         </div>
                                                   <div>
                               <label for="email" class="block text-sm font-semibold text-greenwin-primary mb-2">Email Address <span class="text-greenwin-accent font-bold">*</span></label>
-                              <input type="email" id="email" name="email" required placeholder="jsmith@greenwin.ca" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
+                              <input type="email" id="email" name="email" autocomplete="email" required placeholder="jsmith@greenwin.ca" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
                               <div class="text-sm text-gray-400 mt-2">Format: first letter + last name @greenwin.ca</div>
                           </div>
                         <div>
                             <label for="phone" class="block text-sm font-semibold text-greenwin-primary mb-2">Phone Number <span class="text-greenwin-accent font-bold">*</span></label>
-                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
+                            <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="+1 (555) 123-4567" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
                         </div>
                         <div>
                             <label for="manager" class="block text-sm font-semibold text-greenwin-primary mb-2">Manager/Supervisor Email <span class="text-greenwin-accent font-bold">*</span></label>
-                            <input type="email" id="manager" name="manager" required placeholder="mjohnson@greenwin.ca" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
+                            <input type="email" id="manager" name="manager" autocomplete="email" required placeholder="mjohnson@greenwin.ca" class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
                             <div class="text-sm text-gray-400 mt-2">Format: first letter of first name + full last name @greenwin.ca</div>
                         </div>
                         <div class="md:col-span-2">
                             <label for="department" class="block text-sm font-semibold text-greenwin-primary mb-2">Department <span class="text-greenwin-accent font-bold">*</span></label>
-                            <select id="department" name="department" required class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
+                            <select id="department" name="department" autocomplete="organization-title" required class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-base shadow-sm transition">
                                 <option value="">Select your department</option>
                                 <option value="Finance">Finance</option>
                                 <option value="IT">IT</option>
