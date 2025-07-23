@@ -22,11 +22,68 @@
                 dark: '#003d2a',   // Even deeper green for contrast
                 light: '#e6f4ea',  // Very light green for backgrounds
               },
+              error: '#dc3545',
+              success: '#28a745',
+              border: '#e5e7eb',
             },
           },
         },
       }
     </script>
+    <style>
+        :root {
+            --greenwin-primary: #00543d;
+            --greenwin-accent: #7ac143;
+            --greenwin-dark: #003d2a;
+            --greenwin-light: #e6f4ea;
+            --error: #dc3545;
+            --success: #28a745;
+            --border: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+        }
+        
+        .loading {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffecb5;
+            color: #856404;
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-greenwin-light via-white to-greenwin-accent min-h-screen font-sans">
     <header class="w-full sticky top-0 z-50 backdrop-blur-md bg-white/80 shadow-md border-b border-greenwin-light">
@@ -100,7 +157,7 @@
                         <i class="fas fa-globe text-greenwin-primary text-2xl"></i>
                         <span class="font-bold text-2xl text-greenwin-primary">Travel Details</span>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6 date-grid">
                         <div>
                             <label for="startDate" class="block text-base font-semibold text-greenwin-primary mb-2">Departure Date <span class="text-greenwin-accent font-bold">*</span></label>
                             <input type="date" id="startDate" name="startDate" required class="w-full rounded-xl border border-greenwin-light px-5 py-4 focus:ring-2 focus:ring-greenwin-accent focus:outline-none text-lg shadow-sm transition">
@@ -323,14 +380,16 @@
                 // Check required checkboxes
                 requiredCheckboxes.forEach(checkbox => {
                     const element = document.getElementById(checkbox);
-                    const container = element.closest('.checkbox-item');
+                    const label = element.closest('label');
                     if (!element.checked) {
-                        container.style.borderColor = 'var(--error)';
-                        container.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                        label.style.backgroundColor = 'rgba(220, 53, 69, 0.05)';
+                        label.style.borderLeft = '4px solid var(--error)';
+                        label.style.paddingLeft = '16px';
                         isValid = false;
                     } else {
-                        container.style.borderColor = 'var(--border)';
-                        container.style.boxShadow = 'none';
+                        label.style.backgroundColor = '';
+                        label.style.borderLeft = '';
+                        label.style.paddingLeft = '';
                     }
                 });
                 
@@ -453,59 +512,24 @@ Request Date: ${new Date().toLocaleDateString()}`;
                         // Create simplified mailto link
                         const subject = `Travel Request - ${formData.get('fullName')} - ${formData.get('destination')}`;
                         const simpleMailtoLink = `mailto:${managerEmail}?cc=${encodeURIComponent(ccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-                        
-                        console.log('Attempting to open email client...');
-                        console.log('Manager email:', managerEmail);
-                        console.log('Subject length:', subject.length);
-                        console.log('Body length:', emailBody.length);
-                        
-                        // Copy detailed content to clipboard first
-                        const copyToClipboard = () => {
-                            const textarea = document.createElement('textarea');
-                            textarea.value = detailedContent;
-                            textarea.style.position = 'fixed';
-                            textarea.style.opacity = '0';
-                            document.body.appendChild(textarea);
-                            textarea.select();
-                            
-                            try {
-                                if (navigator.clipboard && window.isSecureContext) {
-                                    navigator.clipboard.writeText(detailedContent)
-                                        .then(() => console.log('Detailed content copied to clipboard'))
-                                        .catch(() => document.execCommand('copy'));
-                                } else {
-                                    document.execCommand('copy');
-                                    console.log('Content copied using execCommand');
-                                }
-                            } catch (err) {
-                                console.log('Clipboard copy failed:', err);
+
+                        // Try to open the mail client
+                        let emailOpened = false;
+                        try {
+                            // Copy to clipboard first as backup
+                            if (navigator.clipboard && window.isSecureContext) {
+                                navigator.clipboard.writeText(detailedContent).catch(err => 
+                                    console.log('Clipboard copy failed:', err)
+                                );
                             }
                             
-                            document.body.removeChild(textarea);
-                        };
-                        
-                        // Copy content immediately
-                        copyToClipboard();
-                        
-                        // Try to open email client with simplified approach
-                        let emailOpened = false;
-                        
-                        try {
-                            // Direct window.location approach (most reliable for Windows)
+                            // Attempt to open email client
                             window.location.href = simpleMailtoLink;
                             emailOpened = true;
-                            console.log('Email client opened via window.location');
+                            console.log('Email client opened successfully');
                         } catch (error) {
-                            console.log('window.location failed:', error);
-                            
-                            try {
-                                // Fallback to window.open
-                                window.open(simpleMailtoLink);
-                                emailOpened = true;
-                                console.log('Email client opened via window.open');
-                            } catch (error2) {
-                                console.log('window.open also failed:', error2);
-                            }
+                            console.log('Failed to open email client:', error);
+                            emailOpened = false;
                         }
                         
                         // Always show the modal after a short delay
@@ -631,9 +655,9 @@ Request Date: ${new Date().toLocaleDateString()}`;
                             • Your manager will review and forward to IT Support after approval
                         `;
                         
-                        document.querySelector('.form-container').insertBefore(
+                        document.querySelector('main').insertBefore(
                             successAlert, 
-                            document.querySelector('.form-section')
+                            document.querySelector('section')
                         );
                         
                         // Scroll to success message
@@ -654,9 +678,9 @@ Request Date: ${new Date().toLocaleDateString()}`;
                             existingAlert.remove();
                         }
                         
-                        document.querySelector('.form-container').insertBefore(
+                        document.querySelector('main').insertBefore(
                             errorAlert, 
-                            document.querySelector('.form-section')
+                            document.querySelector('section')
                         );
                         
                         // Scroll to error message
@@ -680,9 +704,9 @@ Request Date: ${new Date().toLocaleDateString()}`;
                             existingAlert.remove();
                         }
                         
-                        document.querySelector('.form-container').insertBefore(
+                        document.querySelector('main').insertBefore(
                             errorAlert, 
-                            document.querySelector('.form-section')
+                            document.querySelector('section')
                         );
                         
                         errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
