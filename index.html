@@ -381,9 +381,9 @@
             // Form validation and submission
             document.getElementById('travelForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                console.log('🚀 Form submission started');
                 
-                // Capture form reference for use in setTimeout
-                const form = this;
+                // Get elements safely
                 const submitBtn = document.querySelector('.submit-btn');
                 const loading = submitBtn.querySelector('.loading');
                 const btnText = submitBtn.querySelector('span:last-child');
@@ -393,102 +393,125 @@
                 loading.style.display = 'inline-block';
                 btnText.textContent = 'Processing...';
                 
-                // Validate all required fields
-                const requiredFields = ['fullName', 'email', 'phone', 'manager', 'startDate', 'endDate', 'destination', 'devices'];
-                const requiredCheckboxes = ['systemAccess', 'deviceCompliance', 'authRequirement', 'itSupport', 'dataCompliance'];
-                
-                let isValid = true;
-                let errorMessage = '';
-                
-                // Check required fields
-                requiredFields.forEach(field => {
-                    const element = document.getElementById(field);
-                    if (!element.value.trim()) {
-                        element.style.borderColor = 'var(--error)';
-                        element.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                try {
+                    // Validate all required fields
+                    const requiredFields = ['fullName', 'email', 'phone', 'manager', 'startDate', 'endDate', 'destination', 'devices'];
+                    const requiredCheckboxes = ['systemAccess', 'deviceCompliance', 'authRequirement', 'itSupport', 'dataCompliance'];
+                    
+                    let isValid = true;
+                    let errorMessage = '';
+                    
+                    console.log('✅ Starting validation...');
+                    
+                    // Check required fields
+                    requiredFields.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (!element || !element.value.trim()) {
+                            if (element) {
+                                element.style.borderColor = 'var(--error)';
+                                element.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                            }
+                            isValid = false;
+                            console.log('❌ Missing field:', field);
+                        } else {
+                            element.style.borderColor = 'var(--border)';
+                            element.style.boxShadow = 'none';
+                        }
+                    });
+                    
+                    // Check required checkboxes
+                    requiredCheckboxes.forEach(checkbox => {
+                        const element = document.getElementById(checkbox);
+                        if (!element || !element.checked) {
+                            if (element) {
+                                const label = element.closest('label');
+                                if (label) {
+                                    label.style.backgroundColor = 'rgba(220, 53, 69, 0.05)';
+                                    label.style.borderLeft = '4px solid var(--error)';
+                                    label.style.paddingLeft = '16px';
+                                }
+                            }
+                            isValid = false;
+                            console.log('❌ Unchecked required checkbox:', checkbox);
+                        } else {
+                            const label = element.closest('label');
+                            if (label) {
+                                label.style.backgroundColor = '';
+                                label.style.borderLeft = '';
+                                label.style.paddingLeft = '';
+                            }
+                        }
+                    });
+                    
+                    // Validate email format
+                    const email = document.getElementById('email').value;
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (email && !emailRegex.test(email)) {
+                        document.getElementById('email').style.borderColor = 'var(--error)';
                         isValid = false;
-                    } else {
-                        element.style.borderColor = 'var(--border)';
-                        element.style.boxShadow = 'none';
+                        errorMessage = 'Please enter a valid email address.';
                     }
-                });
-                
-                // Check required checkboxes
-                requiredCheckboxes.forEach(checkbox => {
-                    const element = document.getElementById(checkbox);
-                    const label = element.closest('label');
-                    if (!element.checked) {
-                        label.style.backgroundColor = 'rgba(220, 53, 69, 0.05)';
-                        label.style.borderLeft = '4px solid var(--error)';
-                        label.style.paddingLeft = '16px';
+                    
+                    // Validate date range
+                    const startDate = new Date(document.getElementById('startDate').value);
+                    const endDate = new Date(document.getElementById('endDate').value);
+                    
+                    if (startDate && endDate && endDate <= startDate) {
+                        document.getElementById('endDate').style.borderColor = 'var(--error)';
                         isValid = false;
-                    } else {
-                        label.style.backgroundColor = '';
-                        label.style.borderLeft = '';
-                        label.style.paddingLeft = '';
+                        errorMessage = 'Return date must be after departure date.';
                     }
-                });
-                
-                // Validate email format
-                const email = document.getElementById('email').value;
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (email && !emailRegex.test(email)) {
-                    document.getElementById('email').style.borderColor = 'var(--error)';
-                    isValid = false;
-                    errorMessage = 'Please enter a valid email address.';
-                }
-                
-                // Validate date range
-                const startDate = new Date(document.getElementById('startDate').value);
-                const endDate = new Date(document.getElementById('endDate').value);
-                
-                if (startDate && endDate && endDate <= startDate) {
-                    document.getElementById('endDate').style.borderColor = 'var(--error)';
-                    isValid = false;
-                    errorMessage = 'Return date must be after departure date.';
-                }
-                
-                console.log('Processing form submission...');
-                
-                // Process form submission
-                setTimeout(() => {
-                    try {
-                        console.log('Form validation result:', isValid);
+                    
+                    console.log('✅ Validation complete. Valid:', isValid);
+                    
+                    if (!isValid) {
+                        throw new Error('Form validation failed: ' + errorMessage);
+                    }
+                    
+                    // Get form data manually (safer than FormData)
+                    const fullName = document.getElementById('fullName').value;
+                    const employeeEmail = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const managerEmailValue = document.getElementById('manager').value;
+                    const departmentValue = document.getElementById('department').value;
+                    const startDateValue = document.getElementById('startDate').value;
+                    const endDateValue = document.getElementById('endDate').value;
+                    const destination = document.getElementById('destination').value;
+                    const purpose = document.getElementById('purpose').value;
+                    const devices = document.getElementById('devices').value;
+                    const duration = document.getElementById('duration').textContent;
+                    
+                    console.log('📝 Form data extracted:', { fullName, employeeEmail, managerEmailValue, departmentValue });
                         
-                        if (isValid) {
-                        // Create simplified email body for better Windows compatibility
-                        const formData = new FormData(form);
-                        const duration = document.getElementById('duration').textContent;
-                        
-                        // Create a shorter, simpler email body
-                        const emailBody = `Dear ${formData.get('manager')},
+                    // Create a shorter, simpler email body
+                    const emailBody = `Dear ${managerEmailValue},
 
 Please review and approve this travel request, then forward to ITSupport@greenwin.ca:
 
-TRAVEL REQUEST - ${formData.get('fullName')}
-Employee: ${formData.get('fullName')} (${formData.get('email')})
-Phone: ${formData.get('phone')}
-Department: ${formData.get('department') || 'Not specified'}
+TRAVEL REQUEST - ${fullName}
+Employee: ${fullName} (${employeeEmail})
+Phone: ${phone}
+Department: ${departmentValue || 'Not specified'}
 
-Travel Dates: ${formData.get('startDate')} to ${formData.get('endDate')} (${duration})
-Destination: ${formData.get('destination')}
+Travel Dates: ${startDateValue} to ${endDateValue} (${duration})
+Destination: ${destination}
 
-Purpose: ${formData.get('purpose') || 'Not specified'}
+Purpose: ${purpose || 'Not specified'}
 
-Company Devices: ${formData.get('devices')}
+Company Devices: ${devices}
 
 RECOMMENDED: 4 business days advance notice for optimal processing.
 After approval, forward to ITSupport@greenwin.ca for system configuration.
 
 Generated by Greenwin TravelPack Portal - ${new Date().toLocaleDateString()}`;
 
-                        // Create detailed content for clipboard/fallback
-                        const detailedContent = `To: ${formData.get('manager')}
-CC: ${ccList}
+                    // Create detailed content for clipboard/fallback
+                    const detailedContent = `To: ${managerEmailValue}
+CC: ${departmentValue ? 'mannable@greenwin.ca' : ''}
 BCC: nkhan@greenwin.ca
-Subject: [APPROVAL NEEDED] Travel Request - ${formData.get('fullName')} - ${formData.get('destination')}
+Subject: [APPROVAL NEEDED] Travel Request - ${fullName} - ${destination}
 
-Dear ${formData.get('manager')},
+Dear ${managerEmailValue},
 
 Please review and approve the following travel request. Once approved, kindly forward this email to ITSupport@greenwin.ca for system access configuration.
 
@@ -496,25 +519,25 @@ GREENWIN TRAVELPACK REQUEST
 ------------------------------------------
 
 Employee Details:
-• Full Name: ${formData.get('fullName')}
-• Email: ${formData.get('email')}
-• Phone: ${formData.get('phone')}
-• Department: ${formData.get('department') || 'Not specified'}
+• Full Name: ${fullName}
+• Email: ${employeeEmail}
+• Phone: ${phone}
+• Department: ${departmentValue || 'Not specified'}
 
 Travel Information:
-• Departure Date: ${formData.get('startDate')}
-• Return Date: ${formData.get('endDate')}
+• Departure Date: ${startDateValue}
+• Return Date: ${endDateValue}
 • Duration: ${duration}
-• Destination: ${formData.get('destination')}
+• Destination: ${destination}
 
 Purpose:
-${formData.get('purpose') || 'Not specified'}
+${purpose || 'Not specified'}
 
 Company Devices:
-${formData.get('devices')}
+${devices}
 
 REQUIRED IT ACTIONS AFTER APPROVAL:
-1. Configure Microsoft Exchange access for ${formData.get('destination')}
+1. Configure Microsoft Exchange access for ${destination}
 2. Enable international Office 365 access
 3. Apply travel security policies
 4. Configure authentication protocols
@@ -530,241 +553,108 @@ TIMELINE RECOMMENDATIONS:
 Generated by: Greenwin TravelPack Portal
 Request Date: ${new Date().toLocaleDateString()}`;
 
-                        // Get manager's email from the form
-                        const managerEmail = document.getElementById('manager').value;
-                        console.log('Manager email:', managerEmail);
-                        
-                        // Department to approver email mapping
-                        const departmentApproverMap = {
-                            'Finance': 'mannable@greenwin.ca',
-                            'IT': 'mannable@greenwin.ca',
-                            'Human Resources': 'mannable@greenwin.ca',
-                            'Research': 'mannable@greenwin.ca',
-                            'Operations': 'akeresztes@greenwin.ca',
-                            'Marketing/Leasing': 'akeresztes@greenwin.ca',
-                            'Construction Development': 'lwagner@greenwin.ca',
-                        };
-                        
-                        const department = formData.get('department');
-                        const ccList = departmentApproverMap[department] || '';
-                        console.log('Department:', department, 'CC List:', ccList);
-                        
-                        // Create simplified mailto link
-                        const subject = `Travel Request - ${formData.get('fullName')} - ${formData.get('destination')}`;
-                        const simpleMailtoLink = `mailto:${managerEmail}?cc=${encodeURIComponent(ccList)}&bcc=${encodeURIComponent('nkhan@greenwin.ca')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-                        
-                        console.log('Mailto link generated (first 200 chars):', simpleMailtoLink.substring(0, 200) + '...');
+                    // Get manager's email from the form
+                    console.log('Manager email:', managerEmailValue);
+                    
+                    // Department to approver email mapping
+                    const departmentApproverMap = {
+                        'Finance': 'mannable@greenwin.ca',
+                        'IT': 'mannable@greenwin.ca',
+                        'Human Resources': 'mannable@greenwin.ca',
+                        'Research': 'mannable@greenwin.ca',
+                        'Operations': 'akeresztes@greenwin.ca',
+                        'Marketing/Leasing': 'akeresztes@greenwin.ca',
+                        'Construction Development': 'lwagner@greenwin.ca',
+                    };
+                    
+                    const ccList = departmentApproverMap[departmentValue] || '';
+                    console.log('Department:', departmentValue, 'CC List:', ccList);
+                    
+                    // Create simplified mailto link
+                    const subject = `Travel Request - ${fullName} - ${destination}`;
+                    const simpleMailtoLink = `mailto:${managerEmailValue}?cc=${encodeURIComponent(ccList)}&bcc=${encodeURIComponent('nkhan@greenwin.ca')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                    
+                    console.log('Mailto link generated (first 200 chars):', simpleMailtoLink.substring(0, 200) + '...');
 
-                        // Try to open the mail client
-                        let emailOpened = false;
-                        try {
-                            // Copy to clipboard first as backup
-                            if (navigator.clipboard && window.isSecureContext) {
-                                navigator.clipboard.writeText(detailedContent).catch(err => 
-                                    console.log('Clipboard copy failed:', err)
-                                );
-                            }
-                            
-                            // Attempt to open email client
-                            window.location.href = simpleMailtoLink;
-                            emailOpened = true;
-                            console.log('Email client opened successfully');
-                        } catch (error) {
-                            console.log('Failed to open email client:', error);
-                            emailOpened = false;
+                    // Try to open the mail client
+                    let emailOpened = false;
+                    try {
+                        // Copy to clipboard first as backup
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(detailedContent).catch(err => 
+                                console.log('Clipboard copy failed:', err)
+                            );
                         }
                         
-                        // Always show the modal after a short delay
-                        setTimeout(() => {
-                            const modal = document.createElement('div');
-                            modal.style.cssText = `
-                                position: fixed;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                                background: white;
-                                padding: 32px;
-                                border-radius: 12px;
-                                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-                                z-index: 1000;
-                                max-width: 600px;
-                                width: 90%;
-                                max-height: 80vh;
-                                overflow-y: auto;
-                            `;
-                            
-                            modal.innerHTML = `
-                                <div style="text-align: center; margin-bottom: 24px;">
-                                    <i class="fas fa-envelope" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
-                                    <h2 style="margin: 0; color: var(--text-primary);">Email Your Manager</h2>
-                                </div>
-                                
-                                <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
-                                    <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
-                                        <strong>Next Steps:</strong><br>
-                                        1. ${emailOpened ? 'Your email client should have opened' : 'Open your email client manually'}<br>
-                                        2. The complete email content is copied to your clipboard<br>
-                                        3. Paste the content into a new email to: <strong>${managerEmail}</strong><br>
-                                        4. Send the email for manager approval
-                                    </p>
-                                </div>
-                                
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
-                                    <button onclick="window.open('https://outlook.office.com/compose', '_blank')" 
-                                            style="padding: 12px 20px; background: #0078d4; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
-                                        <i class="fas fa-external-link-alt"></i> Open Outlook Web
-                                    </button>
-                                    <button onclick="copyEmailContent()" 
-                                            style="padding: 12px 20px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
-                                        <i class="fas fa-copy"></i> Copy Content Again
-                                    </button>
-                                </div>
-                                
-                                <div style="border: 1px solid #ddd; border-radius: 6px; padding: 16px; background: #fff; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; margin-bottom: 16px;">
-                                    ${detailedContent.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;')}
-                                </div>
-                                
-                                <button onclick="this.closest('div').remove(); document.querySelector('.modal-overlay').remove()" 
-                                        style="padding: 12px 24px; background: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px;">
-                                    <i class="fas fa-check"></i> Done - Email Sent
-                                </button>
-                            `;
-                            
-                            // Create overlay
-                            const overlay = document.createElement('div');
-                            overlay.className = 'modal-overlay';
-                            overlay.style.cssText = `
-                                position: fixed;
-                                top: 0;
-                                left: 0;
-                                right: 0;
-                                bottom: 0;
-                                background: rgba(0, 0, 0, 0.6);
-                                z-index: 999;
-                            `;
-                                                         
-                             document.body.appendChild(overlay);
-                             document.body.appendChild(modal);
-                             
-                             // Make copy function available globally
-                             window.copyEmailContent = () => {
-                                 if (navigator.clipboard && window.isSecureContext) {
-                                     navigator.clipboard.writeText(detailedContent)
-                                         .then(() => {
-                                             console.log('Content copied to clipboard');
-                                             // Show brief feedback
-                                             const btn = document.querySelector('button[onclick="copyEmailContent()"]');
-                                             if (btn) {
-                                                 const originalText = btn.innerHTML;
-                                                 btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                                                 btn.style.background = 'var(--success)';
-                                                 setTimeout(() => {
-                                                     btn.innerHTML = originalText;
-                                                     btn.style.background = 'var(--accent)';
-                                                 }, 2000);
-                                             }
-                                         })
-                                         .catch(err => console.log('Copy failed:', err));
-                                 } else {
-                                     // Fallback for older browsers
-                                     const textarea = document.createElement('textarea');
-                                     textarea.value = detailedContent;
-                                     textarea.style.position = 'fixed';
-                                     textarea.style.opacity = '0';
-                                     document.body.appendChild(textarea);
-                                     textarea.select();
-                                     try {
-                                         document.execCommand('copy');
-                                         console.log('Content copied using fallback method');
-                                     } catch (err) {
-                                         console.log('Copy failed:', err);
-                                     }
-                                     document.body.removeChild(textarea);
-                                 }
-                             };
-                             
-                         }, 500);
-                        
-                        // Show success message
-                        const successAlert = document.createElement('div');
-                        successAlert.className = 'alert alert-success';
-                        successAlert.innerHTML = `
-                            <i class="fas fa-check-circle"></i>
-                            <strong>✅ Travel Request Successfully Generated!</strong><br>
-                            • Email client ${emailOpened ? 'opened successfully' : 'attempted to open'}<br>
-                            • Email content copied to clipboard as backup<br>
-                            • TO: ${managerEmail}<br>
-                            • CC: ${ccList || 'None'}<br>
-                            • BCC: nkhan@greenwin.ca<br>
-                            • Follow the popup instructions to complete submission
-                        `;
-                        
-                        document.querySelector('main').insertBefore(
-                            successAlert, 
-                            document.querySelector('section')
-                        );
-                        
-                        // Scroll to success message
-                        successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
-                    } else {
-                        // Show error message
-                        const errorAlert = document.createElement('div');
-                        errorAlert.className = 'alert alert-error';
-                        errorAlert.innerHTML = `
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <strong>Validation Error</strong> ${errorMessage || 'Please fill in all required fields and complete all acknowledgments.'}
-                        `;
-                        
-                        // Remove existing alerts
-                        const existingAlert = document.querySelector('.alert');
-                        if (existingAlert) {
-                            existingAlert.remove();
-                        }
-                        
-                        document.querySelector('main').insertBefore(
-                            errorAlert, 
-                            document.querySelector('section')
-                        );
-                        
-                        // Scroll to error message
-                        errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                    
+                        // Attempt to open email client
+                        window.location.href = simpleMailtoLink;
+                        emailOpened = true;
+                        console.log('Email client opened successfully');
                     } catch (error) {
-                        console.error('Error during form submission:', error);
-                        console.error('Error details:', error.message);
-                        console.error('Error stack:', error.stack);
-                        
-                        // Show error message
-                        const errorAlert = document.createElement('div');
-                        errorAlert.className = 'alert alert-error';
-                        errorAlert.innerHTML = `
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <strong>Submission Error</strong> There was an error processing your request. Please try again or contact IT Support.
-                            <div class="text-sm mt-2">Error: ${error.message}</div>
-                        `;
-                        
-                        // Remove existing alerts
-                        const existingAlert = document.querySelector('.alert');
-                        if (existingAlert) {
-                            existingAlert.remove();
-                        }
-                        
-                        document.querySelector('main').insertBefore(
-                            errorAlert, 
-                            document.querySelector('section')
-                        );
-                        
-                        errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        console.log('Failed to open email client:', error);
+                        emailOpened = false;
                     }
                     
+                    // Show success message immediately (no setTimeout)
+                    const successAlert = document.createElement('div');
+                    successAlert.className = 'alert alert-success';
+                    successAlert.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        <strong>✅ Travel Request Successfully Generated!</strong><br>
+                        • Email client ${emailOpened ? 'opened successfully' : 'attempted to open'}<br>
+                        • Email content copied to clipboard as backup<br>
+                        • TO: ${managerEmailValue}<br>
+                        • CC: ${ccList || 'None'}<br>
+                        • BCC: nkhan@greenwin.ca<br>
+                        • Follow the popup instructions to complete submission
+                    `;
+                    
+                    // Remove existing alerts
+                    const existingAlert = document.querySelector('.alert');
+                    if (existingAlert) {
+                        existingAlert.remove();
+                    }
+                    
+                    document.querySelector('main').insertBefore(
+                        successAlert, 
+                        document.querySelector('section')
+                    );
+                    
+                    // Scroll to success message
+                    successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                } catch (error) {
+                    console.error('❌ Error during form submission:', error);
+                    console.error('Error details:', error.message);
+                    console.error('Error stack:', error.stack);
+                    
+                    // Show error message
+                    const errorAlert = document.createElement('div');
+                    errorAlert.className = 'alert alert-error';
+                    errorAlert.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Submission Error</strong> There was an error processing your request. Please try again or contact IT Support.
+                        <div class="text-sm mt-2">Error: ${error.message}</div>
+                    `;
+                    
+                    // Remove existing alerts
+                    const existingAlert = document.querySelector('.alert');
+                    if (existingAlert) {
+                        existingAlert.remove();
+                    }
+                    
+                    document.querySelector('main').insertBefore(
+                        errorAlert, 
+                        document.querySelector('section')
+                    );
+                    
+                    errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } finally {
                     // Reset button state (always execute)
                     submitBtn.disabled = false;
                     loading.style.display = 'none';
                     btnText.textContent = 'Submit for Approval';
-                    
-                }, 800);
+                }
             });
 
             // Helper function to calculate business days for warnings (no longer restricts input)
