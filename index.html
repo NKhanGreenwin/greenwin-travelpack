@@ -287,6 +287,10 @@
                         <i class="fas fa-paper-plane"></i>
                         <span>Submit for Approval</span>
                     </button>
+                    <!-- Debug: Test Email Button -->
+                    <button type="button" onclick="testEmailClient()" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded text-sm">
+                        🧪 Test Email Client (Debug)
+                    </button>
                 </div>
             </form>
         </section>
@@ -528,6 +532,7 @@ Request Date: ${new Date().toLocaleDateString()}`;
 
                         // Get manager's email from the form
                         const managerEmail = document.getElementById('manager').value;
+                        console.log('Manager email:', managerEmail);
                         
                         // Department to approver email mapping
                         const departmentApproverMap = {
@@ -542,10 +547,13 @@ Request Date: ${new Date().toLocaleDateString()}`;
                         
                         const department = formData.get('department');
                         const ccList = departmentApproverMap[department] || '';
+                        console.log('Department:', department, 'CC List:', ccList);
                         
                         // Create simplified mailto link
                         const subject = `Travel Request - ${formData.get('fullName')} - ${formData.get('destination')}`;
                         const simpleMailtoLink = `mailto:${managerEmail}?cc=${encodeURIComponent(ccList)}&bcc=${encodeURIComponent('nkhan@greenwin.ca')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                        
+                        console.log('Mailto link generated (first 200 chars):', simpleMailtoLink.substring(0, 200) + '...');
 
                         // Try to open the mail client
                         let emailOpened = false;
@@ -682,11 +690,13 @@ Request Date: ${new Date().toLocaleDateString()}`;
                         successAlert.className = 'alert alert-success';
                         successAlert.innerHTML = `
                             <i class="fas fa-check-circle"></i>
-                            <strong>Travel Request Processed!</strong><br>
-                            • A detailed email has been prepared for your manager<br>
-                            • Content has been copied to your clipboard<br>
-                            • Follow the instructions in the popup to complete your submission<br>
-                            • Your manager will review and forward to IT Support after approval
+                            <strong>✅ Travel Request Successfully Generated!</strong><br>
+                            • Email client ${emailOpened ? 'opened successfully' : 'attempted to open'}<br>
+                            • Email content copied to clipboard as backup<br>
+                            • TO: ${managerEmail}<br>
+                            • CC: ${ccList || 'None'}<br>
+                            • BCC: nkhan@greenwin.ca<br>
+                            • Follow the popup instructions to complete submission
                         `;
                         
                         document.querySelector('main').insertBefore(
@@ -819,6 +829,21 @@ Request Date: ${new Date().toLocaleDateString()}`;
                 }
             });
         });
+
+        // Debug function to test email client
+        function testEmailClient() {
+            const testMailto = 'mailto:test@greenwin.ca?subject=Test%20Email&body=This%20is%20a%20test%20email%20from%20TravelPack%20Portal';
+            console.log('Testing email client with:', testMailto);
+            
+            try {
+                window.location.href = testMailto;
+                console.log('✅ Email client test initiated');
+                alert('Test email should have opened in your email client. Check console for details.');
+            } catch (error) {
+                console.error('❌ Email client test failed:', error);
+                alert('Email client test failed: ' + error.message);
+            }
+        }
     </script>
 </body>
 </html> 
